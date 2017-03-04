@@ -363,7 +363,6 @@ public class frmMain extends javax.swing.JFrame {
         jPanel2.add(jLabel14);
         jLabel14.setBounds(320, 120, 100, 20);
 
-        txtHarga.setEditable(false);
         txtHarga.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
         txtHarga.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -842,11 +841,7 @@ public class frmMain extends javax.swing.JFrame {
                 txtJamMasuk2.setText(rs.getString(5));
               
             }
-            if (txtJenis.getText() == "Motor") {
-                txtHarga.setText("3000");
-            } else {
-                txtHarga.setText("5000");
-            }
+            
             
            
         } catch (Exception e){
