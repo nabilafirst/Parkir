@@ -24,6 +24,16 @@ import javax.swing.table.DefaultTableModel;
  * @author User
  */
 public class frmMain extends javax.swing.JFrame {
+    private DefaultTableModel model = new DefaultTableModel();
+    String tglmasuk;
+    
+    private void TglPinjamPropertyChange(java.beans.PropertyChangeEvent evt){
+        if(DateMasuk.getDate()!=null){
+        SimpleDateFormat Format=new SimpleDateFormat("dd-MM-YYYY");
+        tglmasuk=Format.format(DateMasuk.getDate());
+        
+        }
+    }
    
     /**
      * Creates new form frmMain
@@ -64,7 +74,7 @@ public class frmMain extends javax.swing.JFrame {
         btnQuit = new javax.swing.JButton();
         btnMotor = new javax.swing.JRadioButton();
         btnMobil = new javax.swing.JRadioButton();
-        txtTglMasuk = new javax.swing.JTextField();
+        DateMasuk = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         txtNo2 = new javax.swing.JTextField();
@@ -78,7 +88,6 @@ public class frmMain extends javax.swing.JFrame {
         txtTglMasuk2 = new javax.swing.JTextField();
         jLabel23 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        txtTglKeluar = new javax.swing.JTextField();
         txtHarga = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -91,6 +100,7 @@ public class frmMain extends javax.swing.JFrame {
         btnClear1 = new javax.swing.JButton();
         btnEdit1 = new javax.swing.JButton();
         btnQuit1 = new javax.swing.JButton();
+        DateKeluar = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -261,15 +271,8 @@ public class frmMain extends javax.swing.JFrame {
         btnMobil.setText("Mobil");
         jPanel1.add(btnMobil);
         btnMobil.setBounds(130, 140, 65, 29);
-
-        txtTglMasuk.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
-        txtTglMasuk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTglMasukActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtTglMasuk);
-        txtTglMasuk.setBounds(130, 190, 150, 30);
+        jPanel1.add(DateMasuk);
+        DateMasuk.setBounds(130, 190, 150, 30);
 
         jTabbedPane1.addTab("INPUT KENDARAAN MASUK", jPanel1);
 
@@ -359,15 +362,6 @@ public class frmMain extends javax.swing.JFrame {
         jLabel14.setText("JAM KELUAR");
         jPanel2.add(jLabel14);
         jLabel14.setBounds(320, 120, 100, 20);
-
-        txtTglKeluar.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
-        txtTglKeluar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTglKeluarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(txtTglKeluar);
-        txtTglKeluar.setBounds(430, 80, 150, 30);
 
         txtHarga.setEditable(false);
         txtHarga.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
@@ -491,6 +485,8 @@ public class frmMain extends javax.swing.JFrame {
         });
         jPanel2.add(btnQuit1);
         btnQuit1.setBounds(600, 250, 110, 40);
+        jPanel2.add(DateKeluar);
+        DateKeluar.setBounds(430, 80, 150, 30);
 
         jTabbedPane1.addTab("INPUT KENDARAAN KELUAR", jPanel2);
 
@@ -544,16 +540,19 @@ public class frmMain extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTglMasuk2ActionPerformed
 
-    private void txtTglKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTglKeluarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTglKeluarActionPerformed
-
     private void txtHargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHargaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtHargaActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int baris = jTable1.getSelectedRow();
+        SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+        Date dateValue = null;
+        try {
+            dateValue = date.parse((String) jTable1.getValueAt(baris, 3));
+        } catch (ParseException ex) {
+            Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (baris != 1) {
             txtNo.setText(jTable1.getValueAt(baris, 0).toString());
             txtNopol.setText(jTable1.getValueAt(baris, 1).toString());
@@ -562,18 +561,18 @@ public class frmMain extends javax.swing.JFrame {
             } else {
                 btnMobil.setSelected(true);
             }
-            txtTglMasuk.setText(jTable1.getValueAt(baris, 3).toString());
+            
+            DateMasuk.setDate(dateValue);
            
             txtJamMasuk.setText(jTable1.getValueAt(baris, 4).toString());
         }
-
         // TODO add your handling code here:
     }//GEN-LAST:event_jTable1MouseClicked
 
   
     
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-        if ("".equals(txtNo.getText()) || "".equals(txtNopol.getText()) || "".equals(txtTglMasuk.getText()) || "".equals(txtJamMasuk.getText())) {
+        if ("".equals(txtNo.getText()) || "".equals(txtNopol.getText()) ||"".equals(DateMasuk.getDate()) || "".equals(txtJamMasuk.getText())) {
             jOptionPane1.showMessageDialog(this, "Harap Lengkapi Data", "Error", jOptionPane1.WARNING_MESSAGE);
         } else {
             String jenis = "";
@@ -582,7 +581,10 @@ public class frmMain extends javax.swing.JFrame {
                 } else {
                     jenis = "Mobil";
                 }
-            String SQL = "INSERT INTO t_kendaraan " + "VALUES('" + txtNo.getText() + "','" + txtNopol.getText() + "', '" + jenis + "','"+txtTglMasuk.getText()+"','"+txtJamMasuk.getText()+"')";
+            SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+            String tgl = date.format(DateMasuk.getDate());
+            
+            String SQL = "INSERT INTO t_kendaraan " + "VALUES('" + txtNo.getText() + "','" + txtNopol.getText() + "', '" + jenis + "','"+tgl+"','"+txtJamMasuk.getText()+"')";
             int status = KoneksiDB.execute(SQL);
             if (status == 1){
                 jOptionPane1.showMessageDialog(this, "Data berhasil ditambahkan", "Sukses", jOptionPane1.INFORMATION_MESSAGE);
@@ -590,7 +592,7 @@ public class frmMain extends javax.swing.JFrame {
             } else {
                 jOptionPane1.showMessageDialog(this, "Data gagal ditambahkan", "Sukses", jOptionPane1.WARNING_MESSAGE);
             }
-            
+
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSimpanActionPerformed
@@ -600,6 +602,7 @@ public class frmMain extends javax.swing.JFrame {
         DefaultTableModel dtm = new DefaultTableModel(null, kolom);
         String SQL = "SELECT * FROM t_kendaraan";
         ResultSet rs = KoneksiDB.executeQuery(SQL);
+        
         try {
             while(rs.next()){
                 String no_tiket = rs.getString(1);
@@ -646,13 +649,13 @@ public class frmMain extends javax.swing.JFrame {
         txtNo.setText("");
         txtNopol.setText("");
         txtJamMasuk.setText("");
-        txtTglMasuk.setText("");
+        DateMasuk.setDate(null);
         buttonGroup1.clearSelection();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        if ("".equals(txtNo.getText()) || "".equals(txtNopol.getText()) || "".equals(txtTglMasuk.getText()) || "".equals(txtJamMasuk.getText())) {
+        if ("".equals(txtNo.getText()) || "".equals(txtNopol.getText()) || "".equals(tglmasuk) || "".equals(txtJamMasuk.getText())) {
             jOptionPane1.showMessageDialog(this, "Harap Lengkapi Data", "Error", jOptionPane1.WARNING_MESSAGE);
         } else {
             String jenis = "";
@@ -661,10 +664,16 @@ public class frmMain extends javax.swing.JFrame {
             } else {
                 jenis = "Mobil";
             }
+            
+            SimpleDateFormat date = new SimpleDateFormat("dd-MM-YYYY");
+            String tgl = date.format(DateMasuk.getDate());
+            
             String SQL = "UPDATE t_kendaraan SET "
             + "no_tiket='"+txtNo.getText()+"', "
             + "no_polisi='"+txtNopol.getText()+"', "
-            + "tgl_masuk='"+txtTglMasuk.getText()+"', "
+            + "jenis='"+jenis+"', "       
+            + "tgl_masuk='"+tgl+"', "
+            
             + "jam_masuk='"+txtJamMasuk.getText()+"' WHERE no_tiket='"+txtNo.getText()+"'";
             int status = KoneksiDB.execute(SQL);
             if (status == 1) {
@@ -683,23 +692,26 @@ public class frmMain extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnQuitActionPerformed
 
-    private void txtTglMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTglMasukActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTglMasukActionPerformed
-
     private void txtJamKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJamKeluarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtJamKeluarActionPerformed
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
         int baris = jTable2.getSelectedRow();
+        SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+        Date dateValue2 = null;
+        try {
+            dateValue2 = date.parse((String) jTable2.getValueAt(baris, 5));
+        } catch (ParseException ex) {
+            Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (baris != 1) {
             txtNo2.setText(jTable2.getValueAt(baris, 0).toString());
             txtNopol2.setText(jTable2.getValueAt(baris, 1).toString());
             txtJenis.setText(jTable2.getValueAt(baris, 2).toString());
             txtTglMasuk2.setText(jTable2.getValueAt(baris, 3).toString());
             txtJamMasuk2.setText(jTable2.getValueAt(baris, 4).toString());
-            txtTglKeluar.setText(jTable2.getValueAt(baris, 5).toString());
+            DateKeluar.setDate(dateValue2);
             txtJamKeluar.setText(jTable2.getValueAt(baris, 6).toString());
             txtHarga.setText(jTable2.getValueAt(baris, 7).toString());
         }
@@ -707,11 +719,13 @@ public class frmMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jTable2MouseClicked
 
     private void btnSimpan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpan1ActionPerformed
-        if ("".equals(txtTglKeluar.getText()) || "".equals(txtJamKeluar.getText())) {
+        if ("".equals(DateKeluar.getDate()) || "".equals(txtJamKeluar.getText())) {
             jOptionPane1.showMessageDialog(this, "Harap Lengkapi Data", "Error", jOptionPane1.WARNING_MESSAGE);
         } else {
+            SimpleDateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+            String tgl2 = date.format(DateKeluar.getDate());
             
-            String SQL = "INSERT INTO t_keluar " + "VALUES('" + txtNo2.getText() + "','" + txtNopol2.getText() + "','" + txtJenis.getText() + "','"+txtTglMasuk2.getText()+"','"+txtJamMasuk2.getText()+"','" + txtTglKeluar.getText() + "','" + txtJamKeluar.getText() + "','"+txtHarga.getText()+"')";
+            String SQL = "INSERT INTO t_keluar " + "VALUES('" + txtNo2.getText() + "','" + txtNopol2.getText() + "','" + txtJenis.getText() + "','"+txtTglMasuk2.getText()+"','"+txtJamMasuk2.getText()+"','" + tgl2 + "','" + txtJamKeluar.getText() + "','"+txtHarga.getText()+"')";
             int status = KoneksiDB.execute(SQL);
             if (status == 1){
                 jOptionPane1.showMessageDialog(this, "Data berhasil ditambahkan", "Sukses", jOptionPane1.INFORMATION_MESSAGE);
@@ -778,16 +792,18 @@ public class frmMain extends javax.swing.JFrame {
         txtJenis.setText("");
         txtJamMasuk2.setText("");
         txtTglMasuk2.setText("");
-        txtTglKeluar.setText("");
+        DateKeluar.setDate(null);
         txtJamKeluar.setText("");
         txtHarga.setText("");
         // TODO add your handling code here:
     }//GEN-LAST:event_btnClear1ActionPerformed
 
     private void btnEdit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEdit1ActionPerformed
-        if ("".equals(txtNo2.getText()) || "".equals(txtNopol2.getText()) || "".equals(txtJenis.getText()) || "".equals(txtTglMasuk2.getText()) || "".equals(txtJamMasuk2.getText()) || "".equals(txtTglKeluar.getText()) || "".equals(txtJamKeluar.getText())|| "".equals(txtHarga.getText())) {
+        if ("".equals(txtNo2.getText()) || "".equals(txtNopol2.getText()) || "".equals(txtJenis.getText()) || "".equals(txtTglMasuk2.getText()) || "".equals(txtJamMasuk2.getText()) || "".equals(DateKeluar.getDate()) || "".equals(txtJamKeluar.getText())|| "".equals(txtHarga.getText())) {
             jOptionPane1.showMessageDialog(this, "Harap Lengkapi Data", "Error", jOptionPane1.WARNING_MESSAGE);
         } else {
+            SimpleDateFormat date = new SimpleDateFormat("dd-MM-YYYY");
+            String tgl2 = date.format(DateKeluar.getDate());
             
             String SQL = "UPDATE t_keluar SET "
             + "no_tiket='"+txtNo2.getText()+"', "
@@ -795,7 +811,7 @@ public class frmMain extends javax.swing.JFrame {
             + "jenis='"+txtJenis.getText()+"', "
             + "tgl_masuk='"+txtTglMasuk2.getText()+"', "
             + "jam_masuk='"+txtJamMasuk2.getText()+"', "
-            + "tgl_keluar='"+txtTglKeluar.getText()+"', "
+            + "tgl_keluar='"+tgl2+"', "
             + "jam_keluar='"+txtJamKeluar.getText()+"', "
             + "harga='"+txtHarga.getText()+"' WHERE no_tiket='"+txtNo2.getText()+"'";
             int status = KoneksiDB.execute(SQL);
@@ -873,6 +889,8 @@ public class frmMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser DateKeluar;
+    private com.toedter.calendar.JDateChooser DateMasuk;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnClear1;
     private javax.swing.JButton btnDelete;
@@ -921,8 +939,6 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JTextField txtNo2;
     private javax.swing.JTextField txtNopol;
     private javax.swing.JTextField txtNopol2;
-    private javax.swing.JTextField txtTglKeluar;
-    private javax.swing.JTextField txtTglMasuk;
     private javax.swing.JTextField txtTglMasuk2;
     // End of variables declaration//GEN-END:variables
 
