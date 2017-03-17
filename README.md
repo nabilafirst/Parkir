@@ -1,8 +1,10 @@
-<ol>
-##<li> Judul Aplikasi : </li>
+
+## Judul Aplikasi :
+
 ### Pemrograman Berorientasi Objek - Modul 10 Tugas - Parkir
  
-##<li> Screenshot </li>
+ 
+## Screenshot 
 ![1](https://cloud.githubusercontent.com/assets/22027035/23578515/72e7f7b8-010b-11e7-9d3b-e7b6df99df48.JPG)
 ![2](https://cloud.githubusercontent.com/assets/22027035/23578516/7310cb70-010b-11e7-82b6-44a82d7f2439.JPG)
 ![3](https://cloud.githubusercontent.com/assets/22027035/23578518/731476b2-010b-11e7-95c6-d750a7f90c55.JPG)
@@ -17,7 +19,7 @@
 ![13](https://cloud.githubusercontent.com/assets/22027035/23578514/72b89932-010b-11e7-96b2-5365f2ffe341.JPG)
 
 
-##<li> Identitas : </li>
+## Identitas : 
 
 <ul>
 <li> Nama : NABILA FIRSTANANDA SAPUTRI </li>
